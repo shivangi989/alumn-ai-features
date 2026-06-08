@@ -31,8 +31,8 @@ app.get('/api/users', async (req, res) => {
 // ─────────────────────────────────────────
 
 
-if (!userId) return res.status(400).json({ error: 'userId is required' })
-if (!message || message.trim() === '') return res.status(400).json({ error: 'message is required' })
+// if (!userId) return res.status(400).json({ error: 'userId is required' })
+// if (!message || message.trim() === '') return res.status(400).json({ error: 'message is required' })
 
 
 app.post('/api/auto-group', async (req, res) => {
@@ -97,8 +97,8 @@ app.post('/api/auto-group', async (req, res) => {
 // ROUTE 2: Auto-Group ALL users
 // ─────────────────────────────────────────
 
-if (!userId) return res.status(400).json({ error: 'userId is required' })
-if (!message || message.trim() === '') return res.status(400).json({ error: 'message is required' })
+// if (!userId) return res.status(400).json({ error: 'userId is required' })
+// if (!message || message.trim() === '') return res.status(400).json({ error: 'message is required' })
 
 
 app.post('/api/auto-group-all', async (req, res) => {
@@ -154,8 +154,8 @@ app.post('/api/auto-group-all', async (req, res) => {
 // ROUTE 3: Smart Chat Assistant
 // ─────────────────────────────────────────
 
-if (!userId) return res.status(400).json({ error: 'userId is required' })
-if (!message || message.trim() === '') return res.status(400).json({ error: 'message is required' })
+// if (!userId) return res.status(400).json({ error: 'userId is required' })
+// if (!message || message.trim() === '') return res.status(400).json({ error: 'message is required' })
   
 app.post('/api/chat', async (req, res) => {
   const { message, history = [] } = req.body
