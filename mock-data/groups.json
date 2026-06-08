@@ -1,0 +1,32 @@
+[
+  {
+    "id": "g1",
+    "name": "Web Development",
+    "description": "For alumni working with frontend and backend web technologies",
+    "keywords": ["React", "Node.js", "JavaScript", "HTML", "CSS", "MongoDB", "Vue.js", "Django", "PostgreSQL", "Docker", "Tailwind", "Angular"]
+  },
+  {
+    "id": "g2",
+    "name": "Machine Learning & AI",
+    "description": "For alumni working in AI, ML, deep learning and data science",
+    "keywords": ["Python", "TensorFlow", "PyTorch", "scikit-learn", "Pandas", "NLP", "Computer Vision", "OpenCV", "Machine Learning"]
+  },
+  {
+    "id": "g3",
+    "name": "Finite Element Analysis",
+    "description": "For alumni working in simulation, FEA, and CAE tools",
+    "keywords": ["ANSYS", "ABAQUS", "FEM", "SolidWorks", "COMSOL", "MATLAB", "Nastran", "STAAD Pro", "Structural Analysis"]
+  },
+  {
+    "id": "g4",
+    "name": "Competitive Programming",
+    "description": "For alumni who love problem solving and competitive coding",
+    "keywords": ["C++", "Data Structures", "Algorithms", "LeetCode", "Codeforces", "CodeChef", "HackerRank"]
+  },
+  {
+    "id": "g5",
+    "name": "Data Science",
+    "description": "For alumni working with data analytics and visualization",
+    "keywords": ["SQL", "Tableau", "Power BI", "Statistics", "R", "Excel", "Pandas"]
+  }
+]

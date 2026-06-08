@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1",
+    "name": "Rahul Sharma",
+    "branch": "CSE",
+    "batch": "2022",
+    "skills": ["React", "Node.js", "MongoDB", "Tailwind", "JavaScript"]
+  },
+  {
+    "id": "2",
+    "name": "Priya Verma",
+    "branch": "CSE",
+    "batch": "2023",
+    "skills": ["Python", "TensorFlow", "scikit-learn", "Pandas", "NLP"]
+  },
+  {
+    "id": "3",
+    "name": "Arjun Singh",
+    "branch": "Mechanical",
+    "batch": "2022",
+    "skills": ["ANSYS", "ABAQUS", "FEM", "SolidWorks"]
+  },
+  {
+    "id": "4",
+    "name": "Sneha Gupta",
+    "branch": "CSE",
+    "batch": "2024",
+    "skills": ["C++", "Data Structures", "Algorithms", "Codeforces", "LeetCode"]
+  },
+  {
+    "id": "5",
+    "name": "Mohit Tiwari",
+    "branch": "ECE",
+    "batch": "2022",
+    "skills": ["SQL", "Tableau", "Power BI", "Statistics", "Excel"]
+  },
+  {
+    "id": "6",
+    "name": "Anjali Rao",
+    "branch": "Mechanical",
+    "batch": "2023",
+    "skills": ["COMSOL", "MATLAB", "FEM", "ANSYS"]
+  },
+  {
+    "id": "7",
+    "name": "Vikram Patel",
+    "branch": "CSE",
+    "batch": "2021",
+    "skills": ["Vue.js", "Django", "PostgreSQL", "Docker"]
+  },
+  {
+    "id": "8",
+    "name": "Riya Mishra",
+    "branch": "CSE",
+    "batch": "2023",
+    "skills": ["PyTorch", "Computer Vision", "OpenCV", "Python"]
+  },
+  {
+    "id": "9",
+    "name": "Aman Dubey",
+    "branch": "Civil",
+    "batch": "2022",
+    "skills": ["STAAD Pro", "AutoCAD", "ANSYS", "Structural Analysis"]
+  },
+  {
+    "id": "10",
+    "name": "Kavya Singh",
+    "branch": "CSE",
+    "batch": "2024",
+    "skills": ["R", "Statistics", "Machine Learning", "Pandas", "Tableau"]
+  }
+]

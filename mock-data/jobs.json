@@ -1,0 +1,37 @@
+[
+  {
+    "id": "j1",
+    "title": "Frontend Developer",
+    "company": "Infosys",
+    "skills": ["React", "JavaScript", "CSS"],
+    "type": "Full Time"
+  },
+  {
+    "id": "j2",
+    "title": "ML Engineer",
+    "company": "Google",
+    "skills": ["Python", "TensorFlow", "PyTorch"],
+    "type": "Full Time"
+  },
+  {
+    "id": "j3",
+    "title": "CAE Analyst",
+    "company": "Tata Motors",
+    "skills": ["ANSYS", "FEM", "ABAQUS"],
+    "type": "Full Time"
+  },
+  {
+    "id": "j4",
+    "title": "Data Analyst",
+    "company": "Flipkart",
+    "skills": ["SQL", "Tableau", "Excel"],
+    "type": "Internship"
+  },
+  {
+    "id": "j5",
+    "title": "Backend Developer",
+    "company": "Razorpay",
+    "skills": ["Node.js", "PostgreSQL", "Docker"],
+    "type": "Full Time"
+  }
+]
