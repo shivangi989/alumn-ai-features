@@ -130,8 +130,8 @@ export default function ChatAssistant() {
             {/* Avatar for assistant */}
             {msg.role === 'assistant' && (
               <div style={{
-                width: '32px',
-                height: '32px',
+                width: '34px',
+                height: '34px',
                 borderRadius: '50%',
                 background: '#0d1b4b',
                 color: 'white',
@@ -144,7 +144,7 @@ export default function ChatAssistant() {
                 flexShrink: 0,
                 alignSelf: 'flex-end'
               }}>
-                AI
+                Alma
               </div>
             )}
 
@@ -171,8 +171,8 @@ export default function ChatAssistant() {
         {loading && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{
-              width: '32px',
-              height: '32px',
+              width: '34px',
+              height: '34px',
               borderRadius: '50%',
               background: '#0d1b4b',
               color: 'white',
@@ -182,7 +182,7 @@ export default function ChatAssistant() {
               fontSize: '13px',
               fontWeight: 'bold'
             }}>
-              AI
+              Alma
             </div>
             <div style={{
               background: 'white',

@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   branch: String,
   batch: String,
   skills: [String],
-  assignedGroup: { type: String, default: null }
+  assignedGroup: [String]
 })
 
 module.exports = mongoose.model('User', UserSchema)

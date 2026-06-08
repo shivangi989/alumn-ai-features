@@ -3,7 +3,11 @@
     "id": "g1",
     "name": "Web Development",
     "description": "For alumni working with frontend and backend web technologies",
-    "keywords": ["React", "Node.js", "JavaScript", "HTML", "CSS", "MongoDB", "Vue.js", "Django", "PostgreSQL", "Docker", "Tailwind", "Angular"]
+      "keywords": [
+    "React", "React.js", "Node.js", "JavaScript",
+    "HTML", "CSS", "MongoDB", "Vue.js", "Django",
+    "PostgreSQL", "Docker", "Tailwind", "Angular"
+  ]
   },
   {
     "id": "g2",
@@ -15,7 +19,12 @@
     "id": "g3",
     "name": "Finite Element Analysis",
     "description": "For alumni working in simulation, FEA, and CAE tools",
-    "keywords": ["ANSYS", "ABAQUS", "FEM", "SolidWorks", "COMSOL", "MATLAB", "Nastran", "STAAD Pro", "Structural Analysis"]
+      "keywords": [
+    "ANSYS", "ANSYS Fluent", "ABAQUS", "FEM", "FEA",
+    "SolidWorks", "COMSOL", "MATLAB", "Nastran",
+    "STAAD Pro", "Structural Analysis", "CFD",
+    "Computational Mechanics", "Simulation"
+  ]
   },
   {
     "id": "g4",
