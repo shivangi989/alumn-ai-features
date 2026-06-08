@@ -230,6 +230,79 @@ connectDB().then(async () => {
 // ─────────────────────────────────────────
 // Prevent server crash
 // ─────────────────────────────────────────
+
+// ROUTE: Suggest group for user — does NOT save, just suggests
+app.post('/api/suggest-group', async (req, res) => {
+  const { userId } = req.body
+  if (!userId) return res.status(400).json({ error: 'userId is required' })
+
+  try {
+    const user = await User.findById(userId)
+    if (!user) return res.status(404).json({ error: 'User not found' })
+
+    const groups = await Group.find()
+
+    let bestMatch = null
+    let highestScore = 0
+    let topMatches = []
+
+    groups.forEach(group => {
+      const score = user.skills.filter(skill =>
+        group.keywords.some(k => k.toLowerCase() === skill.toLowerCase())
+      ).length
+      if (score > 0) {
+        topMatches.push({ group, score })
+      }
+      if (score > highestScore) {
+        highestScore = score
+        bestMatch = group
+      }
+    })
+
+    // sort by score — return top 2 suggestions
+    topMatches.sort((a, b) => b.score - a.score)
+    const suggestions = topMatches.slice(0, 2).map(m => m.group.name)
+
+    // Gemini fallback if no keyword match
+    if (highestScore === 0) {
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+      const prompt = `
+        Skills: ${user.skills.join(', ')}, Branch: ${user.branch}
+        Groups: ${groups.map(g => g.name).join(', ')}
+        Suggest top 2 best groups? Reply with ONLY group names separated by comma.
+      `
+      const result = await model.generateContent(prompt)
+      const geminiSuggestions = result.response.text().trim().split(',').map(s => s.trim())
+      geminiSuggestions.forEach(s => {
+        if (!suggestions.includes(s)) suggestions.push(s)
+      })
+    }
+
+    res.json({
+      userId: user._id,
+      userName: user.name,
+      suggestions: suggestions.slice(0, 2)  // max 2 suggestions
+    })
+
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// ROUTE: User joins a group
+app.post('/api/join-group', async (req, res) => {
+  const { userId, groupName } = req.body
+  try {
+    const user = await User.findById(userId)
+    user.assignedGroup = groupName
+    await user.save()
+    res.json({ success: true, message: `${user.name} joined ${groupName}` })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err.message)
 })

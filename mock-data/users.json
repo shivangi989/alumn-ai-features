@@ -68,5 +68,12 @@
     "branch": "CSE",
     "batch": "2024",
     "skills": ["R", "Statistics", "Machine Learning", "Pandas", "Tableau"]
-  }
+  },
+  {
+  "id": "11",
+  "name": "Pooja Verma",
+  "branch": "Engineering and computational mechanics", 
+  "batch": "2023",
+  "skills": ["React.js", "Node.js", "ANSYS Fluent", "FEA", "Python"]
+}
 ]

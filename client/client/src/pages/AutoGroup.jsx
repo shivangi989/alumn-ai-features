@@ -12,93 +12,104 @@ const groupColors = {
 export default function AutoGroup() {
   const [users, setUsers] = useState([])
   const [fetchingUsers, setFetchingUsers] = useState(true)
-  const [results, setResults] = useState({})
+  const [suggestions, setSuggestions] = useState({})   // { userId: [group1, group2] }
   const [loading, setLoading] = useState({})
+  const [joined, setJoined] = useState({})              // { userId: groupName }
+  const [rejected, setRejected] = useState({})          // { userId: [group1, group2] }
   const [loadingAll, setLoadingAll] = useState(false)
   const [error, setError] = useState(null)
 
-  // fetch users from backend on page load
   useEffect(() => {
     axios.get('/api/users')
       .then(res => {
         setUsers(res.data)
         setFetchingUsers(false)
+        // pre-fill joined state from DB
+        const joinedMap = {}
+        res.data.forEach(u => {
+          if (u.assignedGroup) joinedMap[u._id] = u.assignedGroup
+        })
+        setJoined(joinedMap)
       })
-      .catch(err => {
-        setError('Failed to load users from server')
+      .catch(() => {
+        setError('Failed to load users')
         setFetchingUsers(false)
       })
   }, [])
 
-  // assign one user
-  const assignOne = async (userId) => {
+  // suggest for one user
+  const suggestOne = async (userId) => {
     setLoading(prev => ({ ...prev, [userId]: true }))
     try {
-      const res = await axios.post('/api/auto-group', { userId })
-      setResults(prev => ({
-        ...prev,
-        [userId]: {
-          group: res.data.assignedGroup,
-          matchedBy: res.data.matchedBy
-        }
-      }))
+      const res = await axios.post('/api/suggest-group', { userId })
+      setSuggestions(prev => ({ ...prev, [userId]: res.data.suggestions }))
     } catch (err) {
       console.error(err)
     }
     setLoading(prev => ({ ...prev, [userId]: false }))
   }
 
-  // assign all users
-  const assignAll = async () => {
+  // suggest for all users at once
+  const suggestAll = async () => {
     setLoadingAll(true)
     try {
-      const res = await axios.post('/api/auto-group-all')
-      const mapped = {}
-      res.data.forEach(item => {
-        mapped[item.userId] = {
-          group: item.assignedGroup,
-          matchedBy: item.matchedBy
+      const allSuggestions = {}
+      for (const user of users) {
+        if (!joined[user._id]) {  // skip already joined users
+          const res = await axios.post('/api/suggest-group', { userId: user._id })
+          allSuggestions[user._id] = res.data.suggestions
         }
-      })
-      setResults(mapped)
+      }
+      setSuggestions(prev => ({ ...prev, ...allSuggestions }))
     } catch (err) {
       console.error(err)
     }
     setLoadingAll(false)
   }
 
-  // loading state
-  if (fetchingUsers) {
-    return (
-      <div style={{ textAlign: 'center', marginTop: '100px', color: '#666' }}>
-        Loading users from server...
-      </div>
-    )
+  // user joins a group
+  const handleJoin = async (userId, groupName) => {
+    try {
+      await axios.post('/api/join-group', { userId, groupName })
+      setJoined(prev => ({ ...prev, [userId]: groupName }))
+      setSuggestions(prev => ({ ...prev, [userId]: null }))
+    } catch (err) {
+      console.error(err)
+    }
   }
 
-  // error state
-  if (error) {
-    return (
-      <div style={{ textAlign: 'center', marginTop: '100px', color: 'red' }}>
-        {error}
-      </div>
-    )
+  // user rejects all suggestions
+  const handleReject = (userId) => {
+    setRejected(prev => ({ ...prev, [userId]: true }))
+    setSuggestions(prev => ({ ...prev, [userId]: null }))
   }
+
+  if (fetchingUsers) return (
+    <div style={{ textAlign: 'center', marginTop: '100px', color: '#666' }}>
+      Loading users...
+    </div>
+  )
+
+  if (error) return (
+    <div style={{ textAlign: 'center', marginTop: '100px', color: 'red' }}>
+      {error}
+    </div>
+  )
 
   return (
     <div style={{ padding: '32px', maxWidth: '960px', margin: '0 auto' }}>
 
       {/* Header */}
-      <div style={{ marginBottom: '32px' }}>
+      <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#0d1b4b' }}>
-          AI Auto Grouping
+          Group Suggestions
         </h1>
-        <p style={{ color: '#666', marginTop: '8px' }}>
-          Automatically assign alumni to domain groups based on their skills.
-          Uses keyword matching first — Gemini AI for edge cases.
+        <p style={{ color: '#666', marginTop: '6px' }}>
+          AI suggests domain groups based on each alumni's skills.
+          Alumni can choose to join or skip.
         </p>
         <button
-          onClick={assignAll}
+          onClick={suggestAll}
           disabled={loadingAll}
           style={{
             marginTop: '16px',
@@ -112,11 +123,11 @@ export default function AutoGroup() {
             opacity: loadingAll ? 0.7 : 1
           }}
         >
-          {loadingAll ? 'Assigning All Users...' : 'Auto-Assign All Users'}
+          {loadingAll ? 'Generating Suggestions...' : 'Suggest Groups for All'}
         </button>
       </div>
 
-      {/* Stats bar */}
+      {/* Stats */}
       <div style={{
         display: 'flex',
         gap: '24px',
@@ -130,48 +141,43 @@ export default function AutoGroup() {
           <span style={{ fontSize: '22px', fontWeight: 'bold', color: '#0d1b4b' }}>
             {users.length}
           </span>
-          <span style={{ color: '#888', marginLeft: '6px', fontSize: '14px' }}>Total Users</span>
+          <span style={{ color: '#888', marginLeft: '6px', fontSize: '14px' }}>Total Alumni</span>
         </div>
         <div>
           <span style={{ fontSize: '22px', fontWeight: 'bold', color: '#10b981' }}>
-            {Object.keys(results).length}
+            {Object.keys(joined).length}
           </span>
-          <span style={{ color: '#888', marginLeft: '6px', fontSize: '14px' }}>Assigned</span>
+          <span style={{ color: '#888', marginLeft: '6px', fontSize: '14px' }}>Joined a Group</span>
         </div>
         <div>
-          <span style={{ fontSize: '22px', fontWeight: 'bold', color: '#8b5cf6' }}>
-            {Object.values(results).filter(r => r.matchedBy === 'gemini').length}
+          <span style={{ fontSize: '22px', fontWeight: 'bold', color: '#f97316' }}>
+            {users.length - Object.keys(joined).length}
           </span>
-          <span style={{ color: '#888', marginLeft: '6px', fontSize: '14px' }}>Via Gemini</span>
-        </div>
-        <div>
-          <span style={{ fontSize: '22px', fontWeight: 'bold', color: '#3b82f6' }}>
-            {Object.values(results).filter(r => r.matchedBy === 'keyword' || r.matchedBy === 'keyword-matching').length}
-          </span>
-          <span style={{ color: '#888', marginLeft: '6px', fontSize: '14px' }}>Via Keywords</span>
+          <span style={{ color: '#888', marginLeft: '6px', fontSize: '14px' }}>Not Grouped</span>
         </div>
       </div>
 
       {/* User Cards */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
         gap: '20px'
       }}>
         {users.map(user => {
-          const result = results[user._id]
+          const userSuggestions = suggestions[user._id]
           const isLoading = loading[user._id]
-          const groupColor = result ? (groupColors[result.group] || '#6b7280') : '#e5e7eb'
+          const joinedGroup = joined[user._id]
+          const isRejected = rejected[user._id]
+          const groupColor = joinedGroup ? (groupColors[joinedGroup] || '#6b7280') : '#e5e7eb'
 
           return (
-            <div key={user.id} style={{
+            <div key={user._id} style={{
               border: '1px solid #e5e7eb',
               borderRadius: '12px',
               padding: '20px',
               background: 'white',
               boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-              borderTop: `4px solid ${groupColor}`,
-              transition: 'box-shadow 0.2s'
+              borderTop: `4px solid ${joinedGroup ? groupColor : '#e5e7eb'}`
             }}>
 
               {/* Avatar + Name */}
@@ -216,8 +222,9 @@ export default function AutoGroup() {
                 ))}
               </div>
 
-              {/* Result or Assign Button */}
-              {result ? (
+              {/* Bottom section */}
+              {joinedGroup ? (
+                // Already joined a group
                 <div style={{
                   background: groupColor + '18',
                   border: `1px solid ${groupColor}`,
@@ -225,18 +232,108 @@ export default function AutoGroup() {
                   padding: '10px 14px'
                 }}>
                   <div style={{ fontSize: '11px', color: '#888', marginBottom: '3px' }}>
-                    ASSIGNED GROUP
+                    JOINED GROUP
                   </div>
                   <div style={{ fontWeight: '600', color: groupColor, fontSize: '14px' }}>
-                    {result.group}
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#aaa', marginTop: '4px' }}>
-                    matched via {result.matchedBy}
+                    ✓ {joinedGroup}
                   </div>
                 </div>
+
+              ) : userSuggestions && userSuggestions.length > 0 ? (
+                // Show suggestions with join/reject
+                <div>
+                  <div style={{ fontSize: '12px', color: '#888', marginBottom: '8px' }}>
+                    SUGGESTED GROUPS
+                  </div>
+                  {userSuggestions.map(group => (
+                    <div key={group} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '8px 12px',
+                      background: (groupColors[group] || '#6b7280') + '12',
+                      border: `1px solid ${groupColors[group] || '#e5e7eb'}`,
+                      borderRadius: '8px',
+                      marginBottom: '8px'
+                    }}>
+                      <span style={{
+                        fontWeight: '600',
+                        color: groupColors[group] || '#374151',
+                        fontSize: '13px'
+                      }}>
+                        {group}
+                      </span>
+                      <button
+                        onClick={() => handleJoin(user._id, group)}
+                        style={{
+                          background: groupColors[group] || '#0d1b4b',
+                          color: 'white',
+                          border: 'none',
+                          padding: '4px 14px',
+                          borderRadius: '20px',
+                          cursor: 'pointer',
+                          fontSize: '12px',
+                          fontWeight: '500'
+                        }}
+                      >
+                        Join
+                      </button>
+                    </div>
+                  ))}
+                  {/* Reject button */}
+                  <button
+                    onClick={() => handleReject(user._id)}
+                    style={{
+                      width: '100%',
+                      background: 'white',
+                      border: '1px solid #e5e7eb',
+                      color: '#9ca3af',
+                      padding: '7px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      marginTop: '4px'
+                    }}
+                  >
+                    Skip suggestions
+                  </button>
+                </div>
+
+              ) : isRejected ? (
+                // Rejected suggestions
+                <div style={{
+                  textAlign: 'center',
+                  padding: '12px',
+                  color: '#9ca3af',
+                  fontSize: '13px',
+                  border: '1px dashed #e5e7eb',
+                  borderRadius: '8px'
+                }}>
+                  Skipped
+                  <button
+                    onClick={() => {
+                      setRejected(prev => ({ ...prev, [user._id]: false }))
+                      suggestOne(user._id)
+                    }}
+                    style={{
+                      display: 'block',
+                      margin: '6px auto 0',
+                      background: 'none',
+                      border: 'none',
+                      color: '#0d1b4b',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    Show again
+                  </button>
+                </div>
+
               ) : (
+                // Default — suggest button
                 <button
-                  onClick={() => assignOne(user._id)}
+                  onClick={() => suggestOne(user._id)}
                   disabled={isLoading}
                   style={{
                     width: '100%',
@@ -250,7 +347,7 @@ export default function AutoGroup() {
                     fontWeight: '500'
                   }}
                 >
-                  {isLoading ? 'Assigning...' : 'Assign Group'}
+                  {isLoading ? 'Finding groups...' : 'Suggest Groups'}
                 </button>
               )}
             </div>

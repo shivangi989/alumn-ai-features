@@ -18,3 +18,13 @@ export const sendChatMessage = async (message, history) => {
   const res = await axios.post('/api/chat', { message, history })
   return res.data
 }
+
+export const suggestGroup = async (userId) => {
+  const res = await axios.post('/api/suggest-group', { userId })
+  return res.data
+}
+
+export const joinGroup = async (userId, groupName) => {
+  const res = await axios.post('/api/join-group', { userId, groupName })
+  return res.data
+}
