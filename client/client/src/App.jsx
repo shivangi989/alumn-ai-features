@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import AutoGroup from './pages/AutoGroup'
 import ChatAssistant from './pages/ChatAssistant'
-
+import Profile from './pages/Profile'
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +21,10 @@ function App() {
         <Link to="/chat" style={{ color: '#f97316', textDecoration: 'none' }}>
           Chat Assistant
         </Link>
+        <Link to="/profile" style={{ color: '#f97316', textDecoration: 'none' }}>
+          Profile
+        </Link>
+
       </nav>
 
       <Routes>
@@ -32,7 +36,9 @@ function App() {
             <p>Click a link above to test the features</p>
           </div>
         } />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
+      
     </BrowserRouter>
   )
 }

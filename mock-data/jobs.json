@@ -4,34 +4,89 @@
     "title": "Frontend Developer",
     "company": "Infosys",
     "skills": ["React", "JavaScript", "CSS"],
-    "type": "Full Time"
+    "type": "Full Time",
+    "location": "Bangalore",
+    "applyLink": "https://alumns.app/jobs/frontend-developer-infosys"
   },
   {
     "id": "j2",
     "title": "ML Engineer",
     "company": "Google",
     "skills": ["Python", "TensorFlow", "PyTorch"],
-    "type": "Full Time"
+    "type": "Full Time",
+    "location": "Hyderabad",
+    "applyLink": "https://alumns.app/jobs/ml-engineer-google"
   },
   {
     "id": "j3",
     "title": "CAE Analyst",
     "company": "Tata Motors",
     "skills": ["ANSYS", "FEM", "ABAQUS"],
-    "type": "Full Time"
+    "type": "Full Time",
+    "location": "Pune",
+    "applyLink": "https://alumns.app/jobs/cae-analyst-tatamotors"
   },
   {
     "id": "j4",
-    "title": "Data Analyst",
+    "title": "Data Analyst Intern",
     "company": "Flipkart",
     "skills": ["SQL", "Tableau", "Excel"],
-    "type": "Internship"
+    "type": "Internship",
+    "location": "Bangalore",
+    "applyLink": "https://alumns.app/jobs/data-analyst-intern-flipkart"
   },
   {
     "id": "j5",
     "title": "Backend Developer",
     "company": "Razorpay",
     "skills": ["Node.js", "PostgreSQL", "Docker"],
-    "type": "Full Time"
+    "type": "Full Time",
+    "location": "Bangalore",
+    "applyLink": "https://alumns.app/jobs/backend-developer-razorpay"
+  },
+  {
+    "id": "j6",
+    "title": "DevOps Engineer",
+    "company": "Microsoft",
+    "skills": ["AWS", "Kubernetes", "CI/CD"],
+    "type": "Full Time",
+    "location": "Hyderabad",
+    "applyLink": "https://alumns.app/jobs/devops-engineer-microsoft"
+  },
+  {
+    "id": "j7",
+    "title": "Security Analyst",
+    "company": "Deloitte",
+    "skills": ["Network Security", "Penetration Testing"],
+    "type": "Full Time",
+    "location": "Gurgaon",
+    "applyLink": "https://alumns.app/jobs/security-analyst-deloitte"
+  },
+  {
+    "id": "j8",
+    "title": "Structural Engineer",
+    "company": "L&T Construction",
+    "skills": ["STAAD Pro", "AutoCAD"],
+    "type": "Full Time",
+    "location": "Mumbai",
+    "applyLink": "https://alumns.app/jobs/structural-engineer-lt"
+  },
+  {
+    "id": "j9",
+    "title": "Product Manager",
+    "company": "Swiggy",
+    "skills": ["Roadmapping", "Agile", "User Research"],
+    "type": "Full Time",
+    "location": "Bangalore",
+    "applyLink": "https://alumns.app/jobs/product-manager-swiggy"
+  },
+  {
+    "id": "j10",
+    "title": "Competitive Programmer (SDE)",
+    "company": "Amazon",
+    "skills": ["C++", "Data Structures", "Algorithms"],
+    "type": "Full Time",
+    "location": "Chennai",
+    "applyLink": "https://alumns.app/jobs/sde-amazon"
   }
 ]

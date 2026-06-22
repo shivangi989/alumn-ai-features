@@ -1,0 +1,82 @@
+[
+  {
+    "id": "c1",
+    "title": "Full Stack Web Development",
+    "instructor": "Vikram Patel",
+    "skills": ["React", "Node.js", "MongoDB"],
+    "duration": "8 weeks",
+    "courseLink": "https://alumns.app/courses/full-stack-web-development"
+  },
+  {
+    "id": "c2",
+    "title": "Machine Learning Fundamentals",
+    "instructor": "Priya Verma",
+    "skills": ["Python", "scikit-learn", "Pandas"],
+    "duration": "6 weeks",
+    "courseLink": "https://alumns.app/courses/machine-learning-fundamentals"
+  },
+  {
+    "id": "c3",
+    "title": "FEA using ANSYS",
+    "instructor": "Arjun Singh",
+    "skills": ["ANSYS", "FEM"],
+    "duration": "4 weeks",
+    "courseLink": "https://alumns.app/courses/fea-using-ansys"
+  },
+  {
+    "id": "c4",
+    "title": "Competitive Programming Bootcamp",
+    "instructor": "Sneha Gupta",
+    "skills": ["C++", "Data Structures", "Algorithms"],
+    "duration": "10 weeks",
+    "courseLink": "https://alumns.app/courses/competitive-programming-bootcamp"
+  },
+  {
+    "id": "c5",
+    "title": "Data Visualization with Tableau",
+    "instructor": "Mohit Tiwari",
+    "skills": ["Tableau", "Power BI"],
+    "duration": "3 weeks",
+    "courseLink": "https://alumns.app/courses/data-visualization-tableau"
+  },
+  {
+    "id": "c6",
+    "title": "Computer Vision Deep Dive",
+    "instructor": "Riya Mishra",
+    "skills": ["PyTorch", "OpenCV", "Computer Vision"],
+    "duration": "6 weeks",
+    "courseLink": "https://alumns.app/courses/computer-vision-deep-dive"
+  },
+  {
+    "id": "c7",
+    "title": "Backend Systems with Django",
+    "instructor": "Vikram Patel",
+    "skills": ["Django", "PostgreSQL"],
+    "duration": "5 weeks",
+    "courseLink": "https://alumns.app/courses/backend-systems-django"
+  },
+  {
+    "id": "c8",
+    "title": "Structural Analysis Fundamentals",
+    "instructor": "Aman Dubey",
+    "skills": ["STAAD Pro", "Structural Analysis"],
+    "duration": "4 weeks",
+    "courseLink": "https://alumns.app/courses/structural-analysis-fundamentals"
+  },
+  {
+    "id": "c9",
+    "title": "Cloud Deployment with AWS",
+    "instructor": "Vikram Patel",
+    "skills": ["AWS", "Docker", "Kubernetes"],
+    "duration": "5 weeks",
+    "courseLink": "https://alumns.app/courses/cloud-deployment-aws"
+  },
+  {
+    "id": "c10",
+    "title": "Statistics for Data Science",
+    "instructor": "Kavya Singh",
+    "skills": ["Statistics", "R", "Machine Learning"],
+    "duration": "6 weeks",
+    "courseLink": "https://alumns.app/courses/statistics-data-science"
+  }
+]

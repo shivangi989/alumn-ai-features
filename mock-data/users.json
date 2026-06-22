@@ -2,78 +2,181 @@
   {
     "id": "1",
     "name": "Rahul Sharma",
+    "email": "rahul.sharma@mnnit.ac.in",
+    "phone": "98765210",
     "branch": "CSE",
     "batch": "2022",
-    "skills": ["React", "Node.js", "MongoDB", "Tailwind", "JavaScript"]
+    "address": "Lucknow, Uttar Pradesh",
+    "skills": ["React", "Node.js", "MongoDB", "Tailwind", "JavaScript"],
+    "education": "B.Tech CSE, MNNIT Allahabad, 2018-2022",
+    "professional": {
+      "company": "Infosys",
+      "designation": "Software Engineer",
+      "experience": "3 years"
+    },
+    "resumeLink": "https://alumns.app/resume/rahul-sharma",
+    "profileLink": "https://alumns.app/profile/rahul-sharma"
   },
   {
     "id": "2",
     "name": "Priya Verma",
+    "email": "priya.verma@mnnit.ac.in",
+    "phone": "98765211",
     "branch": "CSE",
     "batch": "2023",
-    "skills": ["Python", "TensorFlow", "scikit-learn", "Pandas", "NLP"]
+    "address": "Kanpur, Uttar Pradesh",
+    "skills": ["Python", "TensorFlow", "scikit-learn", "Pandas", "NLP"],
+    "education": "B.Tech CSE, MNNIT Allahabad, 2019-2023",
+    "professional": {
+      "company": "Google",
+      "designation": "ML Engineer",
+      "experience": "2 years"
+    },
+    "resumeLink": "https://alumns.app/resume/priya-verma",
+    "profileLink": "https://alumns.app/profile/priya-verma"
   },
   {
     "id": "3",
     "name": "Arjun Singh",
+    "email": "arjun.singh@mnnit.ac.in",
+    "phone": "98765212",
     "branch": "Mechanical",
     "batch": "2022",
-    "skills": ["ANSYS", "ABAQUS", "FEM", "SolidWorks"]
+    "address": "Allahabad, Uttar Pradesh",
+    "skills": ["ANSYS", "ABAQUS", "FEM", "SolidWorks"],
+    "education": "B.Tech Mechanical, MNNIT Allahabad, 2018-2022",
+    "professional": {
+      "company": "Tata Motors",
+      "designation": "CAE Analyst",
+      "experience": "3 years"
+    },
+    "resumeLink": "https://alumns.app/resume/arjun-singh",
+    "profileLink": "https://alumns.app/profile/arjun-singh"
   },
   {
     "id": "4",
     "name": "Sneha Gupta",
+    "email": "sneha.gupta@mnnit.ac.in",
+    "phone": "98765433",
     "branch": "CSE",
     "batch": "2024",
-    "skills": ["C++", "Data Structures", "Algorithms", "Codeforces", "LeetCode"]
+    "address": "Delhi",
+    "skills": ["C++", "Data Structures", "Algorithms", "Codeforces", "LeetCode"],
+    "education": "B.Tech CSE, MNNIT Allahabad, 2020-2024",
+    "professional": {
+      "company": "Amazon",
+      "designation": "SDE-1",
+      "experience": "1 year"
+    },
+    "resumeLink": "https://alumns.app/resume/sneha-gupta",
+    "profileLink": "https://alumns.app/profile/sneha-gupta"
   },
   {
     "id": "5",
     "name": "Mohit Tiwari",
+    "email": "mohit.tiwari@mnnit.ac.in",
+    "phone": "98763214",
     "branch": "ECE",
     "batch": "2022",
-    "skills": ["SQL", "Tableau", "Power BI", "Statistics", "Excel"]
+    "address": "Varanasi, Uttar Pradesh",
+    "skills": ["SQL", "Tableau", "Power BI", "Statistics", "Excel"],
+    "education": "B.Tech ECE, MNNIT Allahabad, 2018-2022",
+    "professional": {
+      "company": "Deloitte",
+      "designation": "Data Analyst",
+      "experience": "3 years"
+    },
+    "resumeLink": "https://alumns.app/resume/mohit-tiwari",
+    "profileLink": "https://alumns.app/profile/mohit-tiwari"
   },
   {
     "id": "6",
     "name": "Anjali Rao",
+    "email": "anjali.rao@mnnit.ac.in",
+    "phone": "98763215",
     "branch": "Mechanical",
     "batch": "2023",
-    "skills": ["COMSOL", "MATLAB", "FEM", "ANSYS"]
+    "address": "Pune, Maharashtra",
+    "skills": ["COMSOL", "MATLAB", "FEM", "ANSYS"],
+    "education": "B.Tech Mechanical, MNNIT Allahabad, 2019-2023",
+    "professional": {
+      "company": "L&T",
+      "designation": "Design Engineer",
+      "experience": "2 years"
+    },
+    "resumeLink": "https://alumns.app/resume/anjali-rao",
+    "profileLink": "https://alumns.app/profile/anjali-rao"
   },
   {
     "id": "7",
     "name": "Vikram Patel",
+    "email": "vikram.patel@mnnit.ac.in",
+    "phone": "98763216",
     "branch": "CSE",
     "batch": "2021",
-    "skills": ["Vue.js", "Django", "PostgreSQL", "Docker"]
+    "address": "Ahmedabad, Gujarat",
+    "skills": ["Vue.js", "Django", "PostgreSQL", "Docker"],
+    "education": "B.Tech CSE, MNNIT Allahabad, 2017-2021",
+    "professional": {
+      "company": "Razorpay",
+      "designation": "Backend Developer",
+      "experience": "4 years"
+    },
+    "resumeLink": "https://alumns.app/resume/vikram-patel",
+    "profileLink": "https://alumns.app/profile/vikram-patel"
   },
   {
     "id": "8",
     "name": "Riya Mishra",
+    "email": "riya.mishra@mnnit.ac.in",
+    "phone": "98765217",
     "branch": "CSE",
     "batch": "2023",
-    "skills": ["PyTorch", "Computer Vision", "OpenCV", "Python"]
+    "address": "Bhopal, Madhya Pradesh",
+    "skills": ["PyTorch", "Computer Vision", "OpenCV", "Python"],
+    "education": "B.Tech CSE, MNNIT Allahabad, 2019-2023",
+    "professional": {
+      "company": "Microsoft",
+      "designation": "AI Engineer",
+      "experience": "2 years"
+    },
+    "resumeLink": "https://alumns.app/resume/riya-mishra",
+    "profileLink": "https://alumns.app/profile/riya-mishra"
   },
   {
     "id": "9",
     "name": "Aman Dubey",
+    "email": "aman.dubey@mnnit.ac.in",
+    "phone": "98765418",
     "branch": "Civil",
     "batch": "2022",
-    "skills": ["STAAD Pro", "AutoCAD", "ANSYS", "Structural Analysis"]
+    "address": "Jaipur, Rajasthan",
+    "skills": ["STAAD Pro", "AutoCAD", "ANSYS", "Structural Analysis"],
+    "education": "B.Tech Civil, MNNIT Allahabad, 2018-2022",
+    "professional": {
+      "company": "L&T Construction",
+      "designation": "Structural Engineer",
+      "experience": "3 years"
+    },
+    "resumeLink": "https://alumns.app/resume/aman-dubey",
+    "profileLink": "https://alumns.app/profile/aman-dubey"
   },
   {
     "id": "10",
     "name": "Kavya Singh",
+    "email": "kavya.singh@mnnit.ac.in",
+    "phone": "98765432",
     "branch": "CSE",
     "batch": "2024",
-    "skills": ["R", "Statistics", "Machine Learning", "Pandas", "Tableau"]
-  },
-  {
-  "id": "11",
-  "name": "Pooja Verma",
-  "branch": "Engineering and computational mechanics", 
-  "batch": "2023",
-  "skills": ["React.js", "Node.js", "ANSYS Fluent", "FEA", "Python"]
-}
+    "address": "Patna, Bihar",
+    "skills": ["R", "Statistics", "Machine Learning", "Pandas", "Tableau"],
+    "education": "B.Tech CSE, MNNIT Allahabad, 2020-2024",
+    "professional": {
+      "company": "Flipkart",
+      "designation": "Data Scientist",
+      "experience": "1 year"
+    },
+    "resumeLink": "https://alumns.app/resume/kavya-singh",
+    "profileLink": "https://alumns.app/profile/kavya-singh"
+  }
 ]

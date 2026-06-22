@@ -3,39 +3,80 @@
     "id": "g1",
     "name": "Web Development",
     "description": "For alumni working with frontend and backend web technologies",
-      "keywords": [
-    "React", "React.js", "Node.js", "JavaScript",
-    "HTML", "CSS", "MongoDB", "Vue.js", "Django",
-    "PostgreSQL", "Docker", "Tailwind", "Angular"
-  ]
+    "keywords": ["React", "Node.js", "JavaScript", "HTML", "CSS", "MongoDB", "Vue.js", "Django", "PostgreSQL", "Docker", "Tailwind", "Angular"],
+    "members": 45,
+    "groupLink": "https://alumns.app/forum/web-development"
   },
   {
     "id": "g2",
     "name": "Machine Learning & AI",
     "description": "For alumni working in AI, ML, deep learning and data science",
-    "keywords": ["Python", "TensorFlow", "PyTorch", "scikit-learn", "Pandas", "NLP", "Computer Vision", "OpenCV", "Machine Learning"]
+    "keywords": ["Python", "TensorFlow", "PyTorch", "scikit-learn", "Pandas", "NLP", "Computer Vision", "OpenCV", "Machine Learning"],
+    "members": 38,
+    "groupLink": "https://alumns.app/forum/machine-learning-ai"
   },
   {
     "id": "g3",
     "name": "Finite Element Analysis",
     "description": "For alumni working in simulation, FEA, and CAE tools",
-      "keywords": [
-    "ANSYS", "ANSYS Fluent", "ABAQUS", "FEM", "FEA",
-    "SolidWorks", "COMSOL", "MATLAB", "Nastran",
-    "STAAD Pro", "Structural Analysis", "CFD",
-    "Computational Mechanics", "Simulation"
-  ]
+    "keywords": ["ANSYS", "ABAQUS", "FEM", "SolidWorks", "COMSOL", "MATLAB", "Nastran", "STAAD Pro", "Structural Analysis"],
+    "members": 22,
+    "groupLink": "https://alumns.app/forum/finite-element-analysis"
   },
   {
     "id": "g4",
     "name": "Competitive Programming",
     "description": "For alumni who love problem solving and competitive coding",
-    "keywords": ["C++", "Data Structures", "Algorithms", "LeetCode", "Codeforces", "CodeChef", "HackerRank"]
+    "keywords": ["C++", "Data Structures", "Algorithms", "LeetCode", "Codeforces", "CodeChef", "HackerRank"],
+    "members": 31,
+    "groupLink": "https://alumns.app/forum/competitive-programming"
   },
   {
     "id": "g5",
     "name": "Data Science",
     "description": "For alumni working with data analytics and visualization",
-    "keywords": ["SQL", "Tableau", "Power BI", "Statistics", "R", "Excel", "Pandas"]
+    "keywords": ["SQL", "Tableau", "Power BI", "Statistics", "R", "Excel", "Pandas"],
+    "members": 27,
+    "groupLink": "https://alumns.app/forum/data-science"
+  },
+  {
+    "id": "g6",
+    "name": "Cloud & DevOps",
+    "description": "For alumni working with cloud infrastructure and deployment pipelines",
+    "keywords": ["AWS", "Azure", "Kubernetes", "Docker", "CI/CD", "Terraform", "Jenkins"],
+    "members": 19,
+    "groupLink": "https://alumns.app/forum/cloud-devops"
+  },
+  {
+    "id": "g7",
+    "name": "Cybersecurity",
+    "description": "For alumni working in security, ethical hacking, and network defense",
+    "keywords": ["Penetration Testing", "Network Security", "Cryptography", "OWASP", "Burp Suite"],
+    "members": 14,
+    "groupLink": "https://alumns.app/forum/cybersecurity"
+  },
+  {
+    "id": "g8",
+    "name": "Product Management",
+    "description": "For alumni transitioning into or working in product roles",
+    "keywords": ["Roadmapping", "Agile", "Scrum", "User Research", "A/B Testing"],
+    "members": 16,
+    "groupLink": "https://alumns.app/forum/product-management"
+  },
+  {
+    "id": "g9",
+    "name": "Civil & Structural Engineering",
+    "description": "For alumni working in construction, structural design, and civil projects",
+    "keywords": ["AutoCAD", "STAAD Pro", "Structural Analysis", "Revit", "Construction Management"],
+    "members": 21,
+    "groupLink": "https://alumns.app/forum/civil-structural"
+  },
+  {
+    "id": "g10",
+    "name": "Entrepreneurship & Startups",
+    "description": "For alumni building or interested in building their own ventures",
+    "keywords": ["Startup", "Fundraising", "Business Strategy", "MVP", "Pitch Deck"],
+    "members": 12,
+    "groupLink": "https://alumns.app/forum/entrepreneurship-startups"
   }
 ]
