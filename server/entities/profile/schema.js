@@ -1,12 +1,17 @@
 const mongoose = require('mongoose')
 
-const UserSchema = new mongoose.Schema({
+const ProfileSchema = new mongoose.Schema({
+  role: {
+    type: String,
+    enum: ['student', 'alumnus', 'recruiter', 'mentor'],
+    default: 'alumnus'
+  },
   name: String,
   email: String,
   phone: String,
+  address: String,
   branch: String,
   batch: String,
-  address: String,
   skills: [String],
   education: String,
   professional: {
@@ -14,9 +19,13 @@ const UserSchema = new mongoose.Schema({
     designation: String,
     experience: String
   },
+  organizationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organization'
+  },
   resumeLink: String,
   profileLink: String,
   assignedGroup: [String]
 })
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('Profile', ProfileSchema)

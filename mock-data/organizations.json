@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Google",
+    "type": "Company",
+    "description": "Global technology company specializing in internet services, AI and cloud computing.",
+    "industry": "Technology",
+    "location": "Bangalore",
+    "website": "https://google.com",
+    "logo": "https://logo.clearbit.com/google.com",
+    "employeeCount": 180000,
+    "alumniCount": 12,
+    "organizationLink": "/organizations/google"
+  },
+  {
+    "name": "Microsoft",
+    "type": "Company",
+    "description": "Software, cloud and AI solutions provider.",
+    "industry": "Technology",
+    "location": "Hyderabad",
+    "website": "https://microsoft.com",
+    "logo": "https://logo.clearbit.com/microsoft.com",
+    "employeeCount": 220000,
+    "alumniCount": 8,
+    "organizationLink": "/organizations/microsoft"
+  },
+  {
+    "name": "Amazon",
+    "type": "Company",
+    "description": "E-commerce and cloud computing company.",
+    "industry": "Technology",
+    "location": "Bangalore",
+    "website": "https://amazon.com",
+    "logo": "https://logo.clearbit.com/amazon.com",
+    "employeeCount": 1500000,
+    "alumniCount": 10,
+    "organizationLink": "/organizations/amazon"
+  },
+  {
+    "name": "MNNIT Allahabad",
+    "type": "College",
+    "description": "Motilal Nehru National Institute of Technology Allahabad.",
+    "industry": "Education",
+    "location": "Prayagraj",
+    "website": "https://mnnit.ac.in",
+    "logo": "https://logo.clearbit.com/mnnit.ac.in",
+    "employeeCount": 1200,
+    "alumniCount": 50000,
+    "organizationLink": "/organizations/mnnit"
+  },
+  {
+    "name": "Infosys",
+    "type": "Company",
+    "description": "IT consulting and digital transformation services.",
+    "industry": "Technology",
+    "location": "Bangalore",
+    "website": "https://infosys.com",
+    "logo": "https://logo.clearbit.com/infosys.com",
+    "employeeCount": 330000,
+    "alumniCount": 15,
+    "organizationLink": "/organizations/infosys"
+  }
+]
