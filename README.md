@@ -1,137 +1,296 @@
+
 # ALUMNS AI Features
 
 AI-powered enhancements developed for the **ALUMNS Alumni Networking Platform** at **MNNIT Allahabad**.
 
-This project introduces intelligent recommendation and assistance capabilities to improve alumni engagement, networking, and information discovery on the platform.
+The project integrates intelligent recommendation systems, Retrieval-Augmented Generation (RAG), and Large Language Models (LLMs) to enhance alumni networking, information discovery, and user engagement.
 
 ---
 
-## Overview
+# 🚀 Overview
 
-The project consists of two major AI-driven features:
+The AI module consists of two major features:
 
-### 1. AI Auto Grouping
+## 1. AI Auto Grouping
 
-An intelligent recommendation system that helps alumni discover and join relevant groups based on their skills, interests, and professional domains.
+An intelligent hybrid recommendation engine that automatically suggests the most relevant alumni groups based on a user's skills, interests, and professional background.
 
-### 2. Alma – Smart AI Assistant
+## 2. Alma – Smart AI Assistant
 
-A conversational assistant that helps users find:
-
-* Relevant alumni profiles
-* Domain-specific groups
-* Job opportunities
-* Platform-related information
+A conversational AI assistant powered by Retrieval-Augmented Generation (RAG) that helps users discover alumni, organizations, groups, jobs, courses, and platform information using natural language.
 
 ---
 
-## AI Auto Grouping
+# 🤖 AI Auto Grouping
 
-### Problem
+## Problem
 
-As the alumni network grows, manually discovering relevant groups becomes difficult and time-consuming.
+As the alumni network expands, manually finding relevant communities becomes increasingly difficult.
 
-### Solution
+Users often miss valuable networking opportunities because suitable groups are buried among hundreds of options.
 
-A hybrid recommendation system combining:
+## Solution
 
-#### Rule-Based Matching
+The platform implements a **hybrid recommendation pipeline** combining deterministic matching with LLM-powered semantic reasoning.
 
-* Skill and keyword extraction from alumni profiles
-* Group profile analysis
-* Match score calculation using JavaScript-based similarity logic
-* Automatic recommendations when confidence is high
+### Rule-Based Recommendation
 
-#### LLM-Based Recommendation
+The first stage performs fast local matching using:
 
-When rule-based confidence falls below a predefined threshold:
+* Skills extracted from alumni profiles
+* Group keywords
+* Domain overlap scoring
+* JavaScript similarity calculations
 
-* Profile information is analyzed using Google Gemini
-* Semantic understanding is used to identify relevant groups
-* Recommendations are generated even when exact keyword matches are unavailable
+When a strong match exists, recommendations are generated instantly without calling an LLM.
 
-### Benefits
+### LLM-Based Recommendation
 
-* Faster group discovery
-* Improved recommendation accuracy
-* Reduced dependency on AI calls
-* Cost-efficient hybrid architecture
+If rule-based confidence falls below a predefined threshold:
+
+* Google Gemini analyzes the alumni profile
+* Understands semantic relationships between skills and domains
+* Recommends the most relevant communities even without exact keyword matches
+
+This hybrid architecture minimizes API usage while maintaining recommendation quality.
 
 ---
 
-## Alma – Smart AI Assistant
+## Benefits
 
-### Purpose
-
-Alma acts as an AI-powered assistant for the ALUMNS platform.
-
-Users can ask questions such as:
-
-* "Which alumni work in Machine Learning?"
-* "Show me groups related to Web Development."
-* "Find job opportunities in software engineering."
-* "Suggest alumni with similar interests."
-
-### Retrieval-Augmented Generation (RAG)
-
-To support future platform growth, Alma uses a Retrieval-Augmented Generation (RAG) architecture.
-
-Instead of sending the entire database to the LLM:
-
-1. Relevant information is retrieved based on the user's query.
-2. Only the most relevant context is provided to the LLM.
-3. The model generates accurate and context-aware responses.
-
-### Advantages of RAG
-
-* Faster response generation
-* Lower token consumption
+* Faster recommendations
+* Lower AI API costs
+* Reduced latency
+* Improved recommendation quality
 * Better scalability
-* More accurate answers
-* Efficient handling of large alumni datasets
 
 ---
 
-## System Architecture
+# 🧠 Alma – Smart AI Assistant
 
+## Purpose
+
+Alma is an AI-powered assistant designed specifically for the ALUMNS platform.
+
+Users can interact using natural language, for example:
+
+* "Who works at Microsoft?"
+* "Find Python developer jobs."
+* "Show alumni interested in Machine Learning."
+* "Recommend cybersecurity groups."
+* "Suggest courses for Data Science."
+* "Tell me about Google."
+
+---
+
+# 🔍 Retrieval-Augmented Generation (RAG)
+
+Instead of sending the complete database to the LLM, Alma follows a Retrieval-Augmented Generation (RAG) workflow.
+
+### Step 1 — Query Classification
+
+An LLM-based router analyzes the user's query and determines:
+
+* Target entity
+* User intent
+* Retrieval strategy
+
+Supported entities:
+
+* USER
+* ORGANIZATION
+* GROUP
+* JOB
+* COURSE
+
+Supported retrieval modes:
+
+* Structured
+* Semantic
+* Hybrid
+* Greeting
+
+---
+
+### Step 2 — Retrieval
+
+Depending on the query type:
+
+**Structured Retrieval**
+
+Uses MongoDB filters for exact searches such as:
+
+* Company
+* Branch
+* Batch
+* Role
+* Skills
+
+**Semantic Retrieval**
+
+Uses vector embeddings to retrieve conceptually similar documents.
+
+**Hybrid Retrieval**
+
+Combines MongoDB filtering with semantic ranking for greater accuracy.
+
+---
+
+### Step 3 — Context Generation
+
+Only the most relevant records are selected and converted into concise context.
+
+This dramatically reduces prompt size while improving answer quality.
+
+---
+
+### Step 4 — Response Generation
+
+The selected context is passed to the LLM, which generates an accurate, grounded, and context-aware response.
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                    User Query
+                         │
+                         ▼
+               AI Query Router (LLM)
+                         │
+         ┌───────────────┼────────────────┐
+         │               │                │
+         ▼               ▼                ▼
+   Structured       Semantic         Hybrid Search
+   (MongoDB)      (Vector Search)   (Mongo + Vector)
+         │               │                │
+         └───────────────┴────────────────┘
+                         │
+                         ▼
+              Context Construction
+                         │
+                         ▼
+               Google Gemini / Groq
+                         │
+                         ▼
+                Context-Aware Response
+```
+
+---
+
+# ⚡ AI Pipeline
+
+```
 User Query
-↓
-Retriever (RAG)
-↓
-Relevant Alumni / Groups / Jobs
-↓
-Gemini LLM
-↓
-Generated Response
+      │
+      ▼
+Query Classification
+      │
+      ▼
+Entity Selection
+      │
+      ▼
+Retrieval Strategy
+      │
+      ▼
+MongoDB / Vector Store
+      │
+      ▼
+Relevant Context
+      │
+      ▼
+Gemini / Groq
+      │
+      ▼
+Generated Answer
+```
 
 ---
 
-## Tech Stack
+# ✨ Intelligent Features
 
-### Frontend
+## Hybrid Recommendation Engine
+
+* Rule-based recommendations
+* LLM-assisted recommendations
+* Automatic fallback
+
+## Entity-Based Knowledge Retrieval
+
+Supports querying:
+
+* Alumni Profiles
+* Organizations
+* Groups
+* Jobs
+* Courses
+
+## AI Query Router
+
+Automatically detects:
+
+* Intent
+* Entity
+* Retrieval mode
+* Search filters
+
+## Vector Search
+
+Uses Google Gemini embeddings with LangChain's Memory Vector Store for semantic similarity search.
+
+## Multi-LLM Support
+
+Primary model:
+
+* Google Gemini 2.5 Flash
+
+Fallback model:
+
+* Groq Llama 3.3 70B
+
+Includes:
+
+* Automatic retry logic
+* API key rotation
+* Graceful fallback
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
 
 * React
 * Vite
 
-### Backend
+## Backend
 
 * Node.js
 * Express.js
 
-### Database
+## Database
 
 * MongoDB
-* mongodb-memory-server (development)
+* mongodb-memory-server (Development)
 
-### AI & Intelligence
+## AI & Machine Learning
 
 * Google Gemini API
-* Hybrid Recommendation Engine
+* Groq API
+* LangChain.js
+* Google Gemini Embeddings
 * Retrieval-Augmented Generation (RAG)
+* Hybrid Recommendation Engine
+
+## Vector Search
+
+* LangChain Memory Vector Store
+* Semantic Search
+* Embedding-based Retrieval
 
 ---
 
-## Project Structure
+# 📂 Project Structure
 
 ```text
 client/
@@ -140,25 +299,35 @@ client/
 └── components/
 
 server/
-├── models/
-├── routes/
-├── services/
+├── config/
+├── entities/
+│   ├── profile/
+│   ├── organization/
+│   ├── group/
+│   ├── job/
+│   ├── course/
+│   └── registry.js
 ├── rag/
-│   ├── ingest.js
-│   ├── query.js
-│   └── setup.js
+│   ├── vectorStoreManager.js
+│   ├── retrieval.js
+│   └── router.js
+├── services/
+├── seed.js
 └── server.js
 
 mock-data/
 ├── users.json
+├── organizations.json
 ├── groups.json
 ├── jobs.json
 └── courses.json
 ```
 
-## Installation
+---
 
-### Backend
+# ⚙️ Installation
+
+## Backend
 
 ```bash
 cd server
@@ -168,16 +337,20 @@ npm install
 Create a `.env` file:
 
 ```env
-GEMINI_API_KEY=your_api_key
+GEMINI_API_KEY1=your_primary_gemini_key
+GEMINI_API_KEY2=your_secondary_gemini_key
+GROQ_API_KEY=your_groq_api_key
 ```
 
-Start the server:
+Start the backend:
 
 ```bash
 node server.js
 ```
 
-### Frontend
+---
+
+## Frontend
 
 ```bash
 cd client
@@ -187,23 +360,19 @@ npm run dev
 
 ---
 
-## Production Deployment
+# 👨‍💻 Author
 
-For production environments:
+**AI Module for ALUMNS**
 
-* Replace `mongodb-memory-server` with a dedicated MongoDB instance.
-* Configure secure environment variables.
-* Deploy backend and frontend independently.
-* Enable scalable vector storage for large-scale RAG retrieval.
+Developed as part of the **ALUMNS Alumni Networking Platform** at **MNNIT Allahabad**.
 
----
+### Focus Areas
 
-
-## Author
-
-Project Focus:
-
-* AI-powered recommendation systems
+* Artificial Intelligence
 * Retrieval-Augmented Generation (RAG)
-* Alumni networking intelligence
+* Large Language Models (LLMs)
+* Semantic Search
+* Recommendation Systems
+* Alumni Networking Intelligence
+* Full-Stack AI Development
 
