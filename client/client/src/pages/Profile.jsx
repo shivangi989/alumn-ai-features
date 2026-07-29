@@ -56,7 +56,8 @@ export default function Profile() {
     setLoading(true)
     try {
       const res = await axios.put(`/api/users/${selectedUserId}/skills`, { skills })
-      setSuggestedGroups(res.data.suggestedGroups)
+      console.log(res.data)
+      setSuggestedGroups(res.data.suggestedGroups || [])
       setMatchedBy(res.data.matchedBy)
     } catch (err) {
       console.error(err)
@@ -251,7 +252,7 @@ export default function Profile() {
           )}
 
           {/* New suggestions after update */}
-          {suggestedGroups.length > 0 && (
+          {suggestedGroups?.length > 0 && (
             <div>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '8px' }}>
                 SUGGESTED GROUPS {matchedBy && `(via ${matchedBy})`}

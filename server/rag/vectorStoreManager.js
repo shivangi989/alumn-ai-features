@@ -1,13 +1,11 @@
-const { GoogleGenerativeAIEmbeddings } = require('@langchain/google-genai')
+
 const { MemoryVectorStore } = require('@langchain/classic/vectorstores/memory')
 const { getAllEntities } = require('../entities/registry')
 
 const stores = {}
 
-const embeddings = new GoogleGenerativeAIEmbeddings({
-  apiKey: process.env.GEMINI_API_KEY1,
-  model: 'gemini-embedding-001'
-})
+const embeddings =
+require('../llm/embeddingManager')
 
 const initAllVectorStores = async () => {
   const entities = getAllEntities()
