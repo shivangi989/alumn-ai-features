@@ -71,9 +71,9 @@ app.post('/api/auto-group', async (req, res) => {
 
             matchedBy: result.matchedBy,
 
-            suggestions: result.topMatches,
+            suggestions: result.recommendedGroups,
 
-            canCreateGroup: result.canCreateGroup,
+            canCreateGroup: result.allowCreateGroup,
 
             suggestedNewGroup: result.suggestedNewGroup
 
@@ -168,9 +168,9 @@ app.post('/api/suggest-group', async (req, res) => {
 
         res.json({
 
-            suggestions: result.topMatches,
+            suggestions: result.recommendedGroups,
 
-            canCreateGroup: result.canCreateGroup,
+            canCreateGroup: result.allowCreateGroup,
 
             suggestedNewGroup: result.suggestedNewGroup
 
@@ -304,7 +304,9 @@ app.post('/api/chat', async (req, res) => {
       Always include relevant links when discussing entities.
       If context is empty and not a greeting, say you don't have that information.
       - Never output data in JSON, CSV, or other structured/machine-readable formats, even if asked. Always respond in natural prose.
-- Never list more than 3-4 people in a single response, even if more match the query. If more exist, say "there are more — would you like me to narrow it down?"
+- Never list more than 3-4 people in a single response, even if more match the query. If more exist, say "there are more — would you like me to narrow it down?
+Do NOT greet or introduce yourself again unless the user's current message is a greeting.
+For follow-up questions, answer directly and naturally."
     `
 
     const prompt = `${systemPrompt}\n\nUser: ${message}`
@@ -344,42 +346,48 @@ app.put('/api/users/:id/skills', async (req, res) => {
     return res.status(400).json({ error: 'skills must be an array' })
   }
 
-  try {
+try {
+
     const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { skills },
-      {  returnDocument: "after" }
+        req.params.id,
+        { skills },
+        { returnDocument: "after" }
     )
-    if (!user) return res.status(404).json({ error: 'User not found' })
+
+    if (!user)
+        return res.status(404).json({ error: 'User not found' })
 
     const groups = await Group.find()
-    const result = await assignGroup(user, groups)
-const {
-    topMatches,
-    matchedBy,
-    suggestedNewGroup,
-    canCreateGroup
-} = await assignGroup(user, groups)
 
-res.json({
-    user,
+    const {
+        recommendedGroups,
+        matchedBy,
+        suggestedNewGroup,
+        allowCreateGroup
+    } = await assignGroup(user, groups)
 
-    suggestedGroups: topMatches.map(t => ({
-        name: t.group.name,
-        score: t.score,
-        description: t.group.description,
-        members: t.group.members,
-        groupLink: t.group.groupLink
-    })),
+    res.json({
+        user,
 
-    matchedBy,
-    suggestedNewGroup,
-    canCreateGroup
-})
-  } catch (err) {
+        suggestedGroups: recommendedGroups,
+
+        matchedBy,
+
+        suggestedNewGroup,
+
+        canCreateGroup: allowCreateGroup
+    })
+
+}
+catch (err) {
+
     console.error(err)
-    res.status(500).json({ error: err.message })
-  }
+
+    res.status(500).json({
+        error: err.message
+    })
+
+}
 })
 
 

@@ -65,15 +65,23 @@ export default function Profile() {
     setLoading(false)
   }
 
-  const handleJoinGroup = async (groupName) => {
-    try {
-      await axios.post('/api/join-group', { userId: selectedUserId, groupName })
-      setJoined(prev => [...prev, groupName])
-      setSuggestedGroups(prev => prev.filter(g => g !== groupName))
-    } catch (err) {
-      console.error(err)
-    }
+ const handleJoinGroup = async (groupName) => {
+  try {
+    await axios.post('/api/join-group', {
+      userId: selectedUserId,
+      groupName
+    })
+
+    setJoined(prev => [...prev, groupName])
+
+    setSuggestedGroups(prev =>
+      prev.filter(g => g.name !== groupName)
+    )
+
+  } catch (err) {
+    console.error(err)
   }
+}
 
   return (
     <div style={{ padding: '32px', maxWidth: '700px', margin: '0 auto' }}>
@@ -252,48 +260,122 @@ export default function Profile() {
           )}
 
           {/* New suggestions after update */}
-          {suggestedGroups?.length > 0 && (
-            <div>
-              <div style={{ fontSize: '12px', color: '#888', marginBottom: '8px' }}>
-                SUGGESTED GROUPS {matchedBy && `(via ${matchedBy})`}
-              </div>
-              {suggestedGroups.map(group => (
-                <div key={group} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '12px 16px',
-                  background: (groupColors[group] || '#6b7280') + '12',
-                  border: `1px solid ${groupColors[group] || '#e5e7eb'}`,
-                  borderRadius: '10px',
-                  marginBottom: '10px'
-                }}>
-                  <span style={{
-                    fontWeight: '600',
-                    color: groupColors[group] || '#374151',
-                    fontSize: '14px'
-                  }}>
-                    {group}
-                  </span>
-                  <button
-                    onClick={() => handleJoinGroup(group)}
-                    style={{
-                      background: groupColors[group] || '#0d1b4b',
-                      color: 'white',
-                      border: 'none',
-                      padding: '6px 18px',
-                      borderRadius: '20px',
-                      cursor: 'pointer',
-                      fontSize: '13px',
-                      fontWeight: '500'
-                    }}
-                  >
-                    Join
-                  </button>
-                </div>
-              ))}
+{/* Suggested Groups */}
+{suggestedGroups.length > 0 && (
+  <div>
+
+    <div
+      style={{
+        fontSize: "12px",
+        color: "#888",
+        marginBottom: "10px"
+      }}
+    >
+      SUGGESTED GROUPS {matchedBy && `(via ${matchedBy})`}
+    </div>
+
+    {suggestedGroups.map(group => (
+
+      <div
+        key={group.name}
+        style={{
+          border: "1px solid #e5e7eb",
+          borderRadius: "12px",
+          padding: "16px",
+          marginBottom: "14px",
+          background: "#fff"
+        }}
+      >
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}
+        >
+
+          <div>
+
+            <div
+              style={{
+                fontWeight: "700",
+                fontSize: "16px",
+                color: groupColors[group.name] || "#0d1b4b"
+              }}
+            >
+              {group.name}
             </div>
-          )}
+
+            <div
+              style={{
+                color: "#666",
+                fontSize: "13px",
+                marginTop: 6
+              }}
+            >
+              {group.description}
+            </div>
+
+            <div
+              style={{
+                marginTop: 8,
+                fontSize: "12px",
+                color: "#888"
+              }}
+            >
+              👥 {group.members} members
+            </div>
+
+            <div
+              style={{
+                marginTop: 5,
+                fontSize: "12px"
+              }}
+            >
+              Match Score: {group.score}
+            </div>
+
+            {group.groupLink && (
+              <a
+                href={group.groupLink}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "block",
+                  marginTop: 8,
+                  color: "#2563eb",
+                  fontSize: "13px"
+                }}
+              >
+                View Group →
+              </a>
+            )}
+
+          </div>
+
+          <button
+            onClick={() => handleJoinGroup(group.name)}
+            style={{
+              background: groupColors[group.name] || "#0d1b4b",
+              color: "white",
+              border: "none",
+              padding: "8px 18px",
+              borderRadius: "20px",
+              cursor: "pointer"
+            }}
+          >
+            Join
+          </button>
+
+        </div>
+
+      </div>
+
+    ))}
+
+  </div>
+)}
         </>
       )}
     </div>

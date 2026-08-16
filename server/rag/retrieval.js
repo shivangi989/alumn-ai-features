@@ -1,4 +1,5 @@
 const { rewriteQuestion } = require('./questionRewriter')
+const { planQuery } = require('./queryPlanner')
 const { classifyQuery } = require('./router')
 const { getStore } = require('./vectorStoreManager')
 const { getEntity } = require('../entities/registry')
@@ -30,32 +31,18 @@ const semanticSearch = async (entityName, query, topK = 6) => {
   })
 
   return resultsWithScores
-    .filter(([_, score]) => score >= SCORE_THRESHOLD)
+    .filter(([, score]) => score >= SCORE_THRESHOLD)
     .map(([doc]) => doc)
-
 }
 
 // ------------------------------------------------------
-// Main Retrieval Pipeline
+// Retrieve ONE planned sub-query
 // ------------------------------------------------------
 
-const retrieveContext = async (query, history = []) => {
+const retrieveSingleQuery = async (entityName, query) => {
 
-  console.log('\n======================================')
-  console.log(`[User Query] ${query}`)
-
-  // Step 1
-  // Rewrite follow-up question into standalone question
-
-  const standaloneQuery =
-    await rewriteQuestion(query, history)
-
-  console.log(
-    `[Standalone Query] ${standaloneQuery}`
-  )
-
-  // Step 2
-  // Decide retrieval strategy
+  console.log(`\n[Sub-query] ${query}`)
+  console.log(`[Sub-query Entity] ${entityName}`)
 
   const {
     entity,
@@ -63,63 +50,60 @@ const retrieveContext = async (query, history = []) => {
     mode,
     filters,
     confidence
-  } = await classifyQuery(standaloneQuery)
+  } = await classifyQuery(query)
 
   console.log(
-    `[Router]
-Entity      : ${entity}
-Intent      : ${intent}
-Mode        : ${mode}
-Confidence  : ${confidence}`
+    `[Router]\n` +
+    `Entity      : ${entity}\n` +
+    `Intent      : ${intent}\n` +
+    `Mode        : ${mode}\n` +
+    `Confidence  : ${confidence}`
   )
 
-  // Step 3
-  // Greeting / General
+  // Use the planner's entity when available.
+  // Router can still override it if it detects a more specific entity.
+  const finalEntity =
+    entity && entity !== 'GENERAL'
+      ? entity
+      : entityName
+
+  // ----------------------------------------------------
+  // GENERAL / GREETING
+  // ----------------------------------------------------
 
   if (
     mode === 'GREETING' ||
-    entity === 'GENERAL'
+    finalEntity === 'GENERAL'
   ) {
-
-    return {
-      context: '',
-      isGreeting: mode === 'GREETING'
-    }
-
+    return ''
   }
 
-  // Step 4
-  // Entity lookup
+  // ----------------------------------------------------
+  // Entity configuration
+  // ----------------------------------------------------
 
-  const entityConfig = getEntity(entity)
+  const entityConfig = getEntity(finalEntity)
 
   if (!entityConfig) {
 
     console.log(
-      '[Retrieval] Unknown entity -> USER fallback'
+      `[Retrieval] Unknown entity ${finalEntity} -> USER fallback`
     )
 
     const docs =
       await semanticSearch(
         'USER',
-        standaloneQuery
+        query
       )
 
-    return {
-
-      context: docs
-        .map(doc => doc.pageContent)
-        .join('\n---\n'),
-
-      isGreeting: false
-
-    }
-
+    return docs
+      .map(doc => doc.pageContent)
+      .join('\n---\n')
   }
 
-  // ====================================================
+  // ----------------------------------------------------
   // STRUCTURED
-  // ====================================================
+  // ----------------------------------------------------
 
   if (mode === 'STRUCTURED') {
 
@@ -137,25 +121,17 @@ Confidence  : ${confidence}`
         `[Structured] ${results.length} records`
       )
 
-      return {
-
-        context: formatted,
-
-        isGreeting: false
-
-      }
-
+      return formatted
     }
 
     console.log(
       '[Structured] Empty -> Semantic fallback'
     )
-
   }
 
-  // ====================================================
+  // ----------------------------------------------------
   // HYBRID
-  // ====================================================
+  // ----------------------------------------------------
 
   if (mode === 'HYBRID') {
 
@@ -178,8 +154,8 @@ Confidence  : ${confidence}`
 
       const semanticDocs =
         await semanticSearch(
-          entity,
-          standaloneQuery,
+          finalEntity,
+          query,
           10
         )
 
@@ -196,69 +172,168 @@ Confidence  : ${confidence}`
           `[Hybrid] Final Results : ${reranked.length}`
         )
 
-        return {
-
-          context:
-            reranked
-              .map(doc => doc.pageContent)
-              .join('\n---\n'),
-
-          isGreeting: false
-
-        }
-
+        return reranked
+          .map(doc => doc.pageContent)
+          .join('\n---\n')
       }
 
       console.log(
         '[Hybrid] Semantic empty -> Structured'
       )
 
-      return {
-
-        context:
-          entityConfig
-            .structured
-            .formatResults(
-              candidates.slice(0, 6)
-            ),
-
-        isGreeting: false
-
-      }
-
+      return entityConfig.structured
+        .formatResults(
+          candidates.slice(0, 6)
+        )
     }
 
     console.log(
       '[Hybrid] No candidates -> Semantic fallback'
     )
-
   }
 
-  // ====================================================
+  // ----------------------------------------------------
   // SEMANTIC
-  // ====================================================
+  // ----------------------------------------------------
 
   const docs =
     await semanticSearch(
-      entity,
-      standaloneQuery
+      finalEntity,
+      query
     )
 
   console.log(
     `[Semantic] ${docs.length} documents`
   )
 
-  return {
+  return docs
+    .map(doc => doc.pageContent)
+    .join('\n---\n')
+}
 
-    context:
-      docs
-        .map(doc => doc.pageContent)
-        .join('\n---\n'),
+// ------------------------------------------------------
+// Main Retrieval Pipeline
+// ------------------------------------------------------
 
-    isGreeting: false
+const retrieveContext = async (query, history = []) => {
 
+  console.log('\n======================================')
+  console.log(`[User Query] ${query}`)
+
+  // ----------------------------------------------------
+  // Rewrite follow-up question
+  // ----------------------------------------------------
+
+  const standaloneQuery =
+    await rewriteQuestion(query, history)
+
+  console.log(
+    `[Standalone Query] ${standaloneQuery}`
+  )
+
+  // ----------------------------------------------------
+  //Plan query into sub-queries
+  // ----------------------------------------------------
+
+  const plannedQueries =
+    await planQuery(standaloneQuery)
+
+  console.log(
+    '\n[Query Planner]'
+  )
+
+  plannedQueries.forEach((item, index) => {
+    console.log(
+      `${index + 1}. ${item.entity} -> ${item.query}`
+    )
+  })
+
+  // ----------------------------------------------------
+  //Greeting detection
+  // ----------------------------------------------------
+
+  if (
+    plannedQueries.length === 1 &&
+    plannedQueries[0].entity === 'GENERAL'
+  ) {
+
+    const {
+      mode
+    } = await classifyQuery(standaloneQuery)
+
+    if (mode === 'GREETING') {
+
+      return {
+        context: '',
+        isGreeting: true
+      }
+    }
   }
 
+  // ----------------------------------------------------
+  // Retrieve every sub-query
+  // ----------------------------------------------------
+
+  const contexts = []
+
+  for (const planned of plannedQueries) {
+
+    try {
+
+      const context =
+        await retrieveSingleQuery(
+          planned.entity,
+          planned.query
+        )
+
+      if (context && context.trim()) {
+
+        contexts.push({
+          entity: planned.entity,
+          query: planned.query,
+          context
+        })
+      }
+
+    } catch (err) {
+
+      console.error(
+        `[Retrieval] Sub-query failed: ${planned.query}`,
+        err.message
+      )
+    }
+  }
+
+  // ----------------------------------------------------
+  // Combine all retrieved contexts
+  // ----------------------------------------------------
+
+  if (contexts.length === 0) {
+
+    return {
+      context: '',
+      isGreeting: false
+    }
+  }
+
+  const combinedContext =
+    contexts
+      .map(item => `
+SOURCE ENTITY: ${item.entity}
+QUERY: ${item.query}
+
+${item.context}
+      `.trim())
+      .join('\n\n====================\n\n')
+
+  console.log(
+    `\n[Retrieval] Combined ${contexts.length} context(s)`
+  )
+
+  return {
+    context: combinedContext,
+    isGreeting: false
+  }
 }
 
 module.exports = {

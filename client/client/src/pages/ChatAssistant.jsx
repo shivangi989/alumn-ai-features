@@ -16,9 +16,10 @@ export default function ChatAssistant() {
       text: "Hi! I'm Alma, your ALUMNS network assistant. Ask me about alumni, groups, jobs, or who to connect with!"
     }
   ])
+
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
-  const [history, setHistory] = useState([])
+
   const bottomRef = useRef(null)
 
   useEffect(() => {
@@ -27,38 +28,66 @@ export default function ChatAssistant() {
 
   const sendMessage = async (text) => {
     const messageText = text || input
-    if (!messageText.trim()) return
 
-    setMessages(prev => [...prev, { role: 'user', text: messageText }])
+    if (!messageText.trim() || loading) return
+
+    // --------------------------------------------------
+    // Build conversation history BEFORE adding new query
+    // --------------------------------------------------
+    const conversationHistory = messages
+      .filter(msg => msg.role === 'user' || msg.role === 'assistant')
+      .slice(-8)
+      .map(msg => ({
+        role: msg.role === 'assistant' ? 'model' : 'user',
+        parts: [
+          {
+            text: msg.text
+          }
+        ]
+      }))
+
+    // Show user's message immediately
+    setMessages(prev => [
+      ...prev,
+      {
+        role: 'user',
+        text: messageText
+      }
+    ])
+
     setInput('')
     setLoading(true)
 
     try {
       const res = await axios.post('/api/chat', {
         message: messageText,
-        history: history
+        history: conversationHistory
       })
 
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        text: res.data.reply
-      }])
-
-      // update history for conversation context
-      setHistory(prev => [
+      // Add Alma's response to visible conversation
+      setMessages(prev => [
         ...prev,
-        { role: 'user', parts: [{ text: messageText }] },
-        { role: 'model', parts: [{ text: res.data.reply }] }
+        {
+          role: 'assistant',
+          text: res.data.reply
+        }
       ])
 
     } catch (err) {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        text: 'Alma is busy right now. Please try again in a moment.'
-      }])
-    }
 
-    setLoading(false)
+      console.error('[CHAT]', err)
+
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          text: 'Alma is busy right now. Please try again in a moment.'
+        }
+      ])
+
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleKeyDown = (e) => {
@@ -80,15 +109,30 @@ export default function ChatAssistant() {
     }}>
 
       {/* Header */}
-    <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#0d1b4b', marginBottom: '4px' }}>
-      Alma — ALUMNS Smart Assistant
-    </h1>
-    <p style={{ color: '#666', marginBottom: '16px', fontSize: '14px' }}>
-      Your AI guide to the ALUMNS network
-    </p>
+      <h1 style={{
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: '#0d1b4b',
+        marginBottom: '4px'
+      }}>
+        Alma — ALUMNS Smart Assistant
+      </h1>
+
+      <p style={{
+        color: '#666',
+        marginBottom: '16px',
+        fontSize: '14px'
+      }}>
+        Your AI guide to the ALUMNS network
+      </p>
 
       {/* Suggested Questions */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '8px',
+        marginBottom: '16px'
+      }}>
         {suggestedQuestions.map(q => (
           <button
             key={q}
@@ -122,12 +166,20 @@ export default function ChatAssistant() {
         gap: '16px',
         marginBottom: '16px'
       }}>
+
         {messages.map((msg, i) => (
-          <div key={i} style={{
-            display: 'flex',
-            justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start'
-          }}>
-            {/* Avatar for assistant */}
+          <div
+            key={i}
+            style={{
+              display: 'flex',
+              justifyContent:
+                msg.role === 'user'
+                  ? 'flex-end'
+                  : 'flex-start'
+            }}
+          >
+
+            {/* Alma Avatar */}
             {msg.role === 'assistant' && (
               <div style={{
                 width: '34px',
@@ -151,12 +203,22 @@ export default function ChatAssistant() {
             <div style={{
               maxWidth: '70%',
               padding: '12px 16px',
-              borderRadius: msg.role === 'user'
-                ? '18px 18px 4px 18px'
-                : '18px 18px 18px 4px',
-              background: msg.role === 'user' ? '#0d1b4b' : 'white',
-              color: msg.role === 'user' ? 'white' : '#111',
-              border: msg.role === 'assistant' ? '1px solid #e5e7eb' : 'none',
+              borderRadius:
+                msg.role === 'user'
+                  ? '18px 18px 4px 18px'
+                  : '18px 18px 18px 4px',
+              background:
+                msg.role === 'user'
+                  ? '#0d1b4b'
+                  : 'white',
+              color:
+                msg.role === 'user'
+                  ? 'white'
+                  : '#111',
+              border:
+                msg.role === 'assistant'
+                  ? '1px solid #e5e7eb'
+                  : 'none',
               fontSize: '14px',
               lineHeight: '1.6',
               boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
@@ -164,12 +226,18 @@ export default function ChatAssistant() {
             }}>
               {msg.text}
             </div>
+
           </div>
         ))}
 
         {/* Typing indicator */}
         {loading && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+
             <div style={{
               width: '34px',
               height: '34px',
@@ -184,6 +252,7 @@ export default function ChatAssistant() {
             }}>
               Alma
             </div>
+
             <div style={{
               background: 'white',
               border: '1px solid #e5e7eb',
@@ -195,14 +264,20 @@ export default function ChatAssistant() {
             }}>
               •••
             </div>
+
           </div>
         )}
 
         <div ref={bottomRef} />
+
       </div>
 
       {/* Input */}
-      <div style={{ display: 'flex', gap: '12px' }}>
+      <div style={{
+        display: 'flex',
+        gap: '12px'
+      }}>
+
         <input
           value={input}
           onChange={e => setInput(e.target.value)}
@@ -216,9 +291,12 @@ export default function ChatAssistant() {
             border: '1px solid #e5e7eb',
             fontSize: '14px',
             outline: 'none',
-            background: loading ? '#f9fafb' : 'white'
+            background: loading
+              ? '#f9fafb'
+              : 'white'
           }}
         />
+
         <button
           onClick={() => sendMessage()}
           disabled={loading || !input.trim()}
@@ -228,15 +306,23 @@ export default function ChatAssistant() {
             border: 'none',
             padding: '14px 24px',
             borderRadius: '12px',
-            cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
+            cursor:
+              loading || !input.trim()
+                ? 'not-allowed'
+                : 'pointer',
             fontSize: '14px',
             fontWeight: '500',
-            opacity: loading || !input.trim() ? 0.6 : 1
+            opacity:
+              loading || !input.trim()
+                ? 0.6
+                : 1
           }}
         >
           Send
         </button>
+
       </div>
+
     </div>
   )
 }
